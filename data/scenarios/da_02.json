@@ -1,0 +1,65 @@
+{
+  "id": "da_02",
+  "title": "Retired teacher, parcel with drugs, crime branch",
+  "split": "dev",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 68,
+    "avg_monthly_debit_inr": 35000,
+    "max_single_debit_inr_12m": 100000,
+    "txn_amount_inr": 950000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "The officer from Mumbai Crime Branch said my money must be verified, so I am transferring it to the account they gave."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "Officer Sharma from the Crime Branch told me to transfer it today."
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": "No, it is a government verification account."
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "Yes, a courier company first, then the police. They said a parcel in my name had drugs and five passports."
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "They told me this is a confidential investigation and I must not tell my children."
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "Yes, on video since this morning."
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "They said it will be refunded after the investigation is over."
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "They said a warrant is issued and I will be arrested tonight."
+    },
+    "Q9": {
+      "choice": "yes",
+      "detail": "They sent an arrest warrant with a court stamp on WhatsApp."
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": "They said if I call anyone the case gets worse."
+    }
+  },
+  "notice_text": ""
+}

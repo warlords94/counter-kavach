@@ -57,6 +57,7 @@ fusion:
   weights: {anomaly: 0.25, rules: 0.35, llm: 0.40}
   levels: {medium: 35, high: 65}
   top_evidence: 5
+  llm_evidence_weight: 20      # sort weight for LLM-quoted evidence on the risk card
   overrides_high:
     - name: authority_plus_coercion
       rules_all: [AUTHORITY_IMPERSONATION]

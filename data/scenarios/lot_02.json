@@ -1,0 +1,65 @@
+{
+  "id": "lot_02",
+  "title": "'Income tax refund' processing fee",
+  "split": "test",
+  "language": "hi",
+  "label": {
+    "is_scam": true,
+    "scam_type": "lottery_or_refund",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 63,
+    "avg_monthly_debit_inr": 35000,
+    "max_single_debit_inr_12m": 80000,
+    "txn_amount_inr": 120000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "इनकम टैक्स रिफंड आने वाला है, उसके लिए प्रोसेसिंग फीस भरनी है"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "हाँ, टैक्स ऑफिस से फोन आया"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "हाँ, इनकम टैक्स विभाग"
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "हाँ, रिफंड के साथ फीस भी वापस मिलेगी"
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

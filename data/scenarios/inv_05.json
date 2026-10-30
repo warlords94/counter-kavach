@@ -1,0 +1,65 @@
+{
+  "id": "inv_05",
+  "title": "WhatsApp 'sir' on the line, IPO will triple",
+  "split": "test",
+  "language": "hinglish",
+  "label": {
+    "is_scam": true,
+    "scam_type": "investment",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 67,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 100000,
+    "txn_amount_inr": 600000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "WhatsApp group ke sir bole IPO mein paisa lagao, triple ho jayega"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "bole bete ko mat batana, wo rok dega"
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "haan, sir line par hain"
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "unsure",
+      "detail": "pata nahi"
+    }
+  },
+  "notice_text": ""
+}

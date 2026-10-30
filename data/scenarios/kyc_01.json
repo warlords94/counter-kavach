@@ -1,0 +1,65 @@
+{
+  "id": "kyc_01",
+  "title": "'KYC cell' says account frozen today, move balance",
+  "split": "dev",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "kyc_or_account_block",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 64,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 60000,
+    "txn_amount_inr": 250000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "The bank's KYC department said my account will be frozen today unless I move the balance to a temporary account."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "They said they are from RBI KYC cell"
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "They said branch staff are not authorised to know"
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "They said it will be returned once KYC is updated"
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "They said the account will be frozen today"
+    },
+    "Q9": {
+      "choice": "yes",
+      "detail": "An SMS with a link to update PAN"
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

@@ -1,0 +1,65 @@
+{
+  "id": "da_04",
+  "title": "Customs 'fine' in cash for a seized parcel",
+  "split": "dev",
+  "language": "hi",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 65,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 80000,
+    "txn_amount_inr": 600000,
+    "txn_type": "CASH",
+    "beneficiary_is_new": false,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "कस्टम विभाग वालों को जुर्माना देना है, मेरे नाम का पार्सल पकड़ा गया है"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "हाँ, कस्टम ऑफिसर ने कहा नकद लाकर दो"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "हाँ, कस्टम और फिर पुलिस"
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "बोले घर पर मत बताना"
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": "अभी नहीं, बाद में फोन करेंगे"
+    },
+    "Q7": {
+      "choice": "unsure",
+      "detail": "पता नहीं"
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "बोले जुर्माना नहीं दिया तो जेल हो जाएगी"
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

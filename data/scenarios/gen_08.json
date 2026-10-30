@@ -1,0 +1,65 @@
+{
+  "id": "gen_08",
+  "title": "FD moved to own account in another bank",
+  "split": "dev",
+  "language": "hi",
+  "label": {
+    "is_scam": false,
+    "scam_type": null,
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 64,
+    "avg_monthly_debit_inr": 50000,
+    "max_single_debit_inr_12m": 200000,
+    "txn_amount_inr": 1000000,
+    "txn_type": "FD_BREAK",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "एफडी तोड़कर अपने दूसरे बैंक खाते में डाल रहा हूँ, वहाँ ब्याज ज़्यादा है"
+    },
+    "Q2": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "मेरा ही खाता है"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

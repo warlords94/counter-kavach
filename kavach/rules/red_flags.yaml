@@ -117,8 +117,8 @@ rules:
     weight: 20
     patterns:
       - '\b(son|daughter|grandson|granddaughter|nephew|niece|brother|sister|husband|wife)\b.{0,40}\b(arrested|in (police )?custody|accident|in hospital|hospitali[sz]ed|kidnapped|in trouble|detained|in jail)\b'
-      - '\b(beta|beti|pota|poti|bhai|bhatija)\b.{0,30}\b(pakda|giraftar|arrest|hospital|accident)\b'
-      - '(बेटा|बेटी|बेटे|पोता|पोती|भाई|भतीजा).{0,30}(गिरफ्तार|पकडा|पकड|हिरासत|अस्पताल|एक्सीडेंट|दुर्घटना)'
+      - '\b(beta|bete|beti|pota|pote|poti|bhai|bhatija|bhatije|nati)\b.{0,30}\b(pakda|giraftar|arrest|hospital|accident)\b'
+      - '(बेटा|बेटी|बेटे|पोता|पोते|पोती|भाई|भतीजा|भतीजे|नाती|नातिन).{0,30}(गिरफ्तार|पकडा|पकड|हिरासत|अस्पताल|एक्सीडेंट|दुर्घटना)'
 
   - id: LIVE_CALL
     label_en: Customer is on a live call with the caller

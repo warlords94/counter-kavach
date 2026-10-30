@@ -1,0 +1,65 @@
+{
+  "id": "gen_06",
+  "title": "Hard negative: son's university fees abroad, son on video call",
+  "split": "dev",
+  "language": "hinglish",
+  "label": {
+    "is_scam": false,
+    "scam_type": null,
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 57,
+    "avg_monthly_debit_inr": 100000,
+    "max_single_debit_inr_12m": 300000,
+    "txn_amount_inr": 1400000,
+    "txn_type": "OTHER",
+    "beneficiary_is_new": false,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Bete ki Toronto university ki semester fees"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "bete ne invoice bheja hai email pe"
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "university hai, pichle semester bhi bhara tha"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "beta video call par hai, fees confirm kar raha hai"
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": "haan, beta video call pe hai, baat kar lo"
+    }
+  },
+  "notice_text": ""
+}

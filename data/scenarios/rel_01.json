@@ -1,0 +1,65 @@
+{
+  "id": "rel_01",
+  "title": "Grandson 'arrested after accident', inspector on call",
+  "split": "dev",
+  "language": "hi",
+  "label": {
+    "is_scam": true,
+    "scam_type": "relative_in_trouble",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 75,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 100000,
+    "txn_amount_inr": 350000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "पोते का एक्सीडेंट हो गया है, पुलिस ने पकड़ लिया है, छुड़ाने के लिए पैसे भेजने हैं"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "एक पुलिस इंस्पेक्टर ने फोन किया"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "कहा बेटे को मत बताना, वो गुस्सा होगा"
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "कहा आज नहीं भेजा तो पोता जेल जाएगा"
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

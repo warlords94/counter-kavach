@@ -1,0 +1,65 @@
+{
+  "id": "da_06",
+  "title": "Supreme Court 'bail deposit' on video call",
+  "split": "test",
+  "language": "hi",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 70,
+    "avg_monthly_debit_inr": 25000,
+    "max_single_debit_inr_12m": 90000,
+    "txn_amount_inr": 1100000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "मुझे सुप्रीम कोर्ट में जमानत के लिए पैसा जमा करना है"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "हाँ, जज साहब ने कहा"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "हाँ, सुप्रीम कोर्ट और सीबीआई"
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "हाँ, किसी को भी नहीं बताना है"
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "हाँ, वीडियो कॉल चल रही है"
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "हाँ, केस खत्म होने पर लौटा देंगे"
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "हाँ, कहा घर से बाहर नहीं जा सकते, डिजिटल अरेस्ट है"
+    },
+    "Q9": {
+      "choice": "yes",
+      "detail": "हाँ, कोर्ट का ऑर्डर आया"
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

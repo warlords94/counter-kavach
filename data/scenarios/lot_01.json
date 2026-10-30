@@ -1,0 +1,65 @@
+{
+  "id": "lot_01",
+  "title": "Quiz-show 'prize' processing fee",
+  "split": "dev",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "lottery_or_refund",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 66,
+    "avg_monthly_debit_inr": 20000,
+    "max_single_debit_inr_12m": 40000,
+    "txn_amount_inr": 85000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Processing fee and GST to release my TV quiz show lottery prize of 25 lakh."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "The prize office told me to pay the fee today"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "They said keep it secret from relatives until the prize is released"
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "The fee will be refunded with the prize"
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "yes",
+      "detail": "A prize certificate on WhatsApp"
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

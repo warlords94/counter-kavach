@@ -1,0 +1,65 @@
+{
+  "id": "gen_05",
+  "title": "Hard negative: land case, lawyer's fees for High Court",
+  "split": "dev",
+  "language": "hi",
+  "label": {
+    "is_scam": false,
+    "scam_type": null,
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 68,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 100000,
+    "txn_amount_inr": 300000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "ज़मीन के केस के लिए वकील की फीस है, हाई कोर्ट में सुनवाई है"
+    },
+    "Q2": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "हाँ, हमारे पुराने वकील हैं"
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "हाँ, कोर्ट से नोटिस आया था, पर वो हमारे केस का है"
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

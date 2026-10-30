@@ -1,0 +1,65 @@
+{
+  "id": "inv_04",
+  "title": "Advisory promising 4% weekly, 'SEBI certificate'",
+  "split": "test",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "investment",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 45,
+    "avg_monthly_debit_inr": 100000,
+    "max_single_debit_inr_12m": 400000,
+    "txn_amount_inr": 1200000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Guaranteed 4% weekly returns from a stock market advisory, they need margin money."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "The advisor said slots close tonight"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "yes",
+      "detail": "They sent a SEBI registration certificate on WhatsApp"
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

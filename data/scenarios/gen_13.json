@@ -1,0 +1,65 @@
+{
+  "id": "gen_13",
+  "title": "Hard negative: on call with daughter, paying her society dues",
+  "split": "test",
+  "language": "hinglish",
+  "label": {
+    "is_scam": false,
+    "scam_type": null,
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 69,
+    "avg_monthly_debit_inr": 30000,
+    "max_single_debit_inr_12m": 100000,
+    "txn_amount_inr": 300000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Meri beti phone par hai, uske flat ka maintenance aur property tax bhar raha hoon"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "beti ne bola"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": "society ka account hai, beti ne bheja"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "beti hai, Bangalore se"
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": "haan, beti line par hi hai"
+    }
+  },
+  "notice_text": ""
+}
