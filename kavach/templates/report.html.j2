@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter Kavach incident note {{ n.id }}</title>
+<style>
+  body { font-family: "Noto Sans", "Noto Sans Devanagari", system-ui, sans-serif; max-width: 820px; margin: 24px auto; padding: 0 16px; color: #1d1d1f; background: #fff; line-height: 1.45; }
+  h1 { font-size: 1.4rem; } h2 { font-size: 1.1rem; margin-top: 1.6rem; border-bottom: 1px solid #ddd; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-weight: 700; color: #fff; }
+  .LOW { background: #2e7d32; } .MEDIUM { background: #b26a00; } .HIGH { background: #c62828; }
+  table { border-collapse: collapse; width: 100%; } td { border: 1px solid #ddd; padding: 6px 8px; vertical-align: top; }
+  td:first-child { width: 32%; color: #555; }
+  .src { display: inline-block; font-size: .75rem; padding: 1px 6px; border-radius: 4px; background: #eef; margin-right: 6px; }
+  .foot { margin-top: 2rem; font-size: .85rem; color: #555; }
+</style>
+</head>
+<body>
+<h1>Counter Kavach incident note {{ n.id }}</h1>
+<p><span class="badge {{ n.level }}">{{ n.level }}</span> score {{ "%.0f"|format(n.score) }} · {{ n.scam_label }}
+{% if n.overrides %}<br>Hard overrides: {{ n.overrides|join(", ") }}{% endif %}
+{% if n.floors %}<br>Floors: {{ n.floors|join(", ") }}{% endif %}</p>
+<table>
+  <tr><td>Time</td><td>{{ n.timestamp }}</td></tr>
+  <tr><td>Branch</td><td>{{ n.branch }}</td></tr>
+  <tr><td>Staff</td><td>{{ n.staff_name }}</td></tr>
+  <tr><td>Customer ref</td><td>{{ n.customer_ref }} (age {{ n.customer_age }})</td></tr>
+  <tr><td>Transaction</td><td>{{ n.txn_type }} of {{ n.amount_display }} ({{ "%.1f"|format(n.amount_ratio) }}x average monthly debit)</td></tr>
+  <tr><td>Payee</td><td>{{ n.payee }}{% if n.beneficiary_is_new %} (new beneficiary){% endif %}</td></tr>
+  <tr><td>On a call at the counter</td><td>{{ "yes" if n.on_call else "no" }}</td></tr>
+</table>
+<h2>Why</h2>
+<ul>{% for e in n.evidence %}<li><span class="src">{{ e.source }}</span>{{ e.text }}</li>{% endfor %}</ul>
+{% if n.llm_summary %}<p>LLM summary: {{ n.llm_summary }}</p>{% endif %}
+{% if not n.llm_available %}<p><em>LLM unavailable: result from rules and transaction signals only.</em></p>{% endif %}
+<h2>Transaction signals (anomaly score {{ n.anomaly_score }})</h2>
+<ul>{% for r in n.anomaly_reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+<h2>Questions and answers</h2>
+<ul>{% for q in n.qa %}<li><strong>{{ q.qid }}</strong> {{ q.question }}{% if q.choice %} <strong>[{{ q.choice }}]</strong>{% endif %}{% if q.detail %} — {{ q.detail }}{% endif %}</li>{% endfor %}</ul>
+<h2>Actions</h2>
+<ul>{% for a in n.recommended_actions %}<li>{{ a }}</li>{% endfor %}</ul>
+<p><strong>Action taken:</strong> {{ n.action_taken }} · <strong>Decided by:</strong> {{ n.officer_name }}{% if n.suspected_fraud %} · Marked as suspected fraud{% endif %}</p>
+{% if n.staff_notes %}<p>Staff notes: {{ n.staff_notes }}</p>{% endif %}
+<h2>Run details</h2>
+<p>Models: {% for k, v in n.models.items() %}{{ k }} = {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}<br>
+Stage timings (s): {% for k, v in n.timings.items() %}{{ k }} {{ "%.2f"|format(v) }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% if n.energy_joules is not none %}<br>Energy: {{ n.energy_joules }} J ({{ n.energy_kind }}){% endif %}</p>
+<p class="foot">Prototype, not certified, not legal advice. Cannot confirm whether a document is genuine. A person made the decision recorded above.</p>
+</body>
+</html>

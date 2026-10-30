@@ -16,14 +16,14 @@ RULE_SCAM_TYPES = [
 _POINTS = re.compile(r"\s*\(\+(\d+)\)$")
 
 
-def _rules_hold(cond: dict, full: set[str]) -> bool:
+def rules_hold(cond: dict, full: set[str]) -> bool:
     any_of = cond.get("rules_any")
     return all(r in full for r in cond.get("rules_all", [])) and (not any_of or any(r in full for r in any_of))
 
 
 def _floor_holds(floor: dict, full: set[str], ctx: TransactionContext, anomaly: AnomalyResult) -> bool:
     if "rules_all" in floor or "rules_any" in floor:
-        return _rules_hold(floor, full)
+        return rules_hold(floor, full)
     when = floor.get("when", {})
     checks = []
     if "live_call" in when:
@@ -84,7 +84,7 @@ def fuse(anomaly: AnomalyResult, rules: RulesResult, analyzer: AnalyzerResult | 
     levels = f["levels"]
     level = "HIGH" if score >= levels["high"] else "MEDIUM" if score >= levels["medium"] else "LOW"
     full = rules.full_ids()
-    overrides = [o["name"] for o in f["overrides_high"] if _rules_hold(o, full)]
+    overrides = [o["name"] for o in f["overrides_high"] if rules_hold(o, full)]
     floors = [fl["name"] for fl in f["floors_medium"] if _floor_holds(fl, full, ctx, anomaly)]
     if overrides:
         level = "HIGH"

@@ -1,0 +1,68 @@
+# Counter Kavach incident note {{ n.id }}
+
+**Risk: {{ n.level }}** (score {{ "%.0f"|format(n.score) }}) · Scam type: {{ n.scam_label }}
+{% if n.overrides %}Hard overrides: {{ n.overrides|join(", ") }}
+{% endif %}{% if n.floors %}Floors: {{ n.floors|join(", ") }}
+{% endif %}
+
+| | |
+|---|---|
+| Time | {{ n.timestamp }} |
+| Branch | {{ n.branch }} |
+| Staff | {{ n.staff_name }} |
+| Customer ref | {{ n.customer_ref }} (age {{ n.customer_age }}) |
+| Transaction | {{ n.txn_type }} of {{ n.amount_display }} ({{ "%.1f"|format(n.amount_ratio) }}x average monthly debit) |
+| Payee | {{ n.payee }}{% if n.beneficiary_is_new %} (new beneficiary){% endif %} |
+| On a call at the counter | {{ "yes" if n.on_call else "no" }} |
+
+## Why
+
+{% for e in n.evidence %}
+- **{{ e.source }}** · {{ e.text }}
+{% endfor %}
+{% if n.llm_summary %}
+
+LLM summary: {{ n.llm_summary }}
+{% endif %}
+{% if not n.llm_available %}
+
+_LLM unavailable: result from rules and transaction signals only._
+{% endif %}
+
+## Transaction signals (anomaly score {{ n.anomaly_score }})
+
+{% for r in n.anomaly_reasons %}
+- {{ r }}
+{% endfor %}
+
+## Questions and answers
+
+{% for q in n.qa %}
+- **{{ q.qid }}** {{ q.question }}{% if q.choice %} **[{{ q.choice }}]**{% endif %}{% if q.detail %} — {{ q.detail }}{% endif %}
+
+{% endfor %}
+
+## Actions
+
+Recommended:
+{% for a in n.recommended_actions %}
+- {{ a }}
+{% endfor %}
+
+**Action taken:** {{ n.action_taken }} · **Decided by:** {{ n.officer_name }}{% if n.suspected_fraud %} · Marked as suspected fraud{% endif %}
+
+{% if n.staff_notes %}
+Staff notes: {{ n.staff_notes }}
+
+{% endif %}
+## Run details
+
+Models: {% for k, v in n.models.items() %}{{ k }} = {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}
+
+Stage timings (s): {% for k, v in n.timings.items() %}{{ k }} {{ "%.2f"|format(v) }}{% if not loop.last %}, {% endif %}{% endfor %}
+
+{% if n.energy_joules is not none %}Energy: {{ n.energy_joules }} J ({{ n.energy_kind }})
+{% endif %}
+
+---
+Prototype, not certified, not legal advice. Cannot confirm whether a document is genuine. A person made the decision recorded above.
