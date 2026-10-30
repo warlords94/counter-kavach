@@ -1,4 +1,7 @@
-"""Cross-platform task runner: python tasks.py <setup|models|run|test|eval|bench|smoke>."""
+"""Cross-platform task runner: python tasks.py <setup|models|run|test|eval|bench|smoke> [extra args].
+
+Extra arguments go to the task's command, e.g. python tasks.py run --server.port 8502
+"""
 import os
 import subprocess
 import sys
@@ -19,15 +22,16 @@ TASKS = {
 
 
 def main() -> int:
-    if len(sys.argv) != 2 or sys.argv[1] not in TASKS:
-        print(f"usage: python tasks.py <{'|'.join(TASKS)}>")
+    if len(sys.argv) < 2 or sys.argv[1] not in TASKS:
+        print(f"usage: python tasks.py <{'|'.join(TASKS)}> [extra args]")
         return 2
+    task, extra = sys.argv[1], sys.argv[2:]
     env = os.environ.copy()
     env["PYTHONUTF8"] = "1"
-    if sys.argv[1] in ("run", "eval", "bench"):
+    if task in ("run", "eval", "bench"):
         env.setdefault("OFFLINE", "1")
-    for cmd in TASKS[sys.argv[1]]:
-        code = subprocess.call(cmd, cwd=ROOT, env=env)
+    for cmd in TASKS[task]:
+        code = subprocess.call(cmd + extra, cwd=ROOT, env=env)
         if code:
             return code
     return 0

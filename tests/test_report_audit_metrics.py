@@ -100,6 +100,12 @@ def test_energy_without_rapl_is_labelled_estimated(tmp_path):
     assert kind == "estimated" and joules >= 0
 
 
+def test_windows_11_is_not_reported_as_windows_10():
+    assert metrics.os_name("Windows", "10", "10.0.26200") == "Windows 11"
+    assert metrics.os_name("Windows", "10", "10.0.19045") == "Windows 10"
+    assert metrics.os_name("Linux", "6.8.0", "#1 SMP") == "Linux 6.8.0"
+
+
 def test_system_info_has_cpu_cores_and_ram():
     info = metrics.system_info()
     assert info["physical_cores"] >= 1 and info["ram_gb"] > 0 and info["cpu"]

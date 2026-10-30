@@ -19,18 +19,18 @@ class LlamaCppBackend(LLMBackend):
         self.llm = Llama(model_path=str(model_path), n_ctx=n_ctx, n_threads=n_threads,
                          chat_format=chat_format, seed=seed, verbose=False)
 
-    def _perf(self, reset: bool = False) -> tuple[float | None, float | None]:
-        """Prompt-eval and generation seconds from llama.cpp's own counters (best effort)."""
+    def _perf(self, reset: bool = False) -> tuple[float | None, float | None, int | None]:
+        """Prompt-eval seconds, generation seconds and evaluated prompt tokens from llama.cpp (best effort)."""
         try:
             import llama_cpp
             ctx = self.llm._ctx.ctx
             if reset:
                 llama_cpp.llama_perf_context_reset(ctx)
-                return None, None
+                return None, None, None
             d = llama_cpp.llama_perf_context(ctx)
-            return d.t_p_eval_ms / 1000, d.t_eval_ms / 1000
+            return d.t_p_eval_ms / 1000, d.t_eval_ms / 1000, d.n_p_eval
         except Exception:
-            return None, None
+            return None, None, None
 
     def generate(self, messages: list[dict], json_schema: dict | None = None,
                  max_tokens: int = 384, temperature: float = 0.1) -> GenerationResult:
@@ -42,11 +42,12 @@ class LlamaCppBackend(LLMBackend):
         out = self.llm.create_chat_completion(messages=messages, max_tokens=max_tokens,
                                               temperature=temperature, **kwargs)
         seconds = perf_counter() - t0
-        prompt_s, gen_s = self._perf()
+        prompt_s, gen_s, prompt_n = self._perf()
         usage = out.get("usage") or {}
         return GenerationResult(
             text=out["choices"][0]["message"]["content"] or "",
             stats=GenerationStats(prompt_tokens=usage.get("prompt_tokens", 0),
                                   output_tokens=usage.get("completion_tokens", 0),
-                                  seconds=seconds, prompt_seconds=prompt_s, gen_seconds=gen_s),
+                                  seconds=seconds, prompt_seconds=prompt_s, prompt_eval_tokens=prompt_n,
+                                  gen_seconds=gen_s),
         )

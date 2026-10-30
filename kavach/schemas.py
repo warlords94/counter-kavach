@@ -89,6 +89,7 @@ class GenerationStats(BaseModel):
     output_tokens: int = 0
     seconds: float = 0.0
     prompt_seconds: float | None = None
+    prompt_eval_tokens: int | None = None  # tokens actually evaluated (KV-cache hits excluded)
     gen_seconds: float | None = None
 
 

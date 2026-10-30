@@ -68,11 +68,22 @@ def _cpu_name() -> str:
     return platform.processor() or platform.machine()
 
 
+def os_name(system: str, release: str, version: str) -> str:
+    """platform.release() says "10" on Windows 11; builds 22000+ are Windows 11."""
+    if system == "Windows":
+        try:
+            build = int(version.split(".")[-1])
+        except ValueError:
+            build = 0
+        return "Windows 11" if build >= 22000 else f"Windows {release}"
+    return f"{system} {release}"
+
+
 def system_info() -> dict:
     return {
         "cpu": _cpu_name(),
         "physical_cores": psutil.cpu_count(logical=False) or 1,
         "logical_cores": psutil.cpu_count(logical=True) or 1,
         "ram_gb": round(psutil.virtual_memory().total / 1e9, 1),
-        "os": f"{platform.system()} {platform.release()}",
+        "os": os_name(platform.system(), platform.release(), platform.version()),
     }
