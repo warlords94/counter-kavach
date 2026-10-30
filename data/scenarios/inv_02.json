@@ -1,0 +1,65 @@
+{
+  "id": "inv_02",
+  "title": "Coached: 'friend's business', trading app on screen",
+  "split": "dev",
+  "language": "hinglish",
+  "label": {
+    "is_scam": true,
+    "scam_type": "investment",
+    "coached": true
+  },
+  "transaction": {
+    "customer_age": 52,
+    "avg_monthly_debit_inr": 80000,
+    "max_single_debit_inr_12m": 300000,
+    "txn_amount_inr": 900000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": "Customer showed a trading app screen with 300% profit while waiting"
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Paise apne dost ke business mein laga raha hoon"
+    },
+    "Q2": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "haan dost hai"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": "haan, kar lijiye"
+    }
+  },
+  "notice_text": ""
+}

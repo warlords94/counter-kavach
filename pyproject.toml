@@ -1,0 +1,9 @@
+[project]
+name = "counter-kavach"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["llm: needs the downloaded GGUF model (skipped when it is missing)"]

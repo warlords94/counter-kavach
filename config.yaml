@@ -1,0 +1,80 @@
+branch: "Demo Branch (synthetic)"
+offline: true
+retention_days: 30
+
+models:
+  llm_path: models/llm/Qwen3-4B-Instruct-2507-Q4_K_M.gguf
+  llm_fallback_path: models/llm/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  use_fallback: false
+  whisper_dir: models/whisper-small
+  downloads:
+    llm: {repo: unsloth/Qwen3-4B-Instruct-2507-GGUF, file: Qwen3-4B-Instruct-2507-Q4_K_M.gguf}
+    llm_fallback: {repo: Qwen/Qwen2.5-1.5B-Instruct-GGUF, file: qwen2.5-1.5b-instruct-q4_k_m.gguf}
+    whisper: {repo: Systran/faster-whisper-small}
+
+llm:
+  n_ctx: 4096
+  n_threads: auto            # physical cores
+  temperature: 0.1
+  max_tokens: 512            # hard cap; the schema bounds normal output well below this
+  chat_format: chatml        # Qwen models use ChatML
+  unconstrained_first_attempt: true   # grammar costs ~0.08 s/token on CPU; the retry uses the schema grammar
+  smoke_max_seconds: 25      # model choice rule: slower than this -> use the fallback model
+
+asr:
+  compute_type: int8
+  max_clip_seconds: 10
+  min_avg_logprob: -1.0
+
+anomaly:
+  min_check_amount_inr: 50000   # below this, only "Check anyway" starts the guided check
+  trigger_score: 30
+  ratio_points: [[10, 30], [5, 20], [3, 10]]
+  senior_age: 60
+  senior_points: 15
+  new_beneficiary_points: 15
+  large_transfer_inr: 500000
+  large_transfer_types: [RTGS, NEFT, IMPS]
+  large_transfer_new_payee_points: 10
+  above_max_single_debit_factor: 2
+  above_max_single_debit_points: 10
+  fd_break_points: 10
+  on_call_points: 20
+  unknown_companion_points: 10
+
+rules:
+  fuzzy_threshold: 90
+  fuzzy_min_term_len: 5
+  negation_window_before: 4     # tokens
+  negation_window_after: 3      # tokens, Hindi negators only
+  unsure_factor: 0.5
+
+llm_scoring:
+  likelihood_scores: {low: 10, medium: 50, high: 85}
+  no_evidence_cap: 30
+  evidence_match_threshold: 85  # rapidfuzz partial_ratio
+
+fusion:
+  weights: {anomaly: 0.25, rules: 0.35, llm: 0.40}
+  levels: {medium: 35, high: 65}
+  top_evidence: 5
+  llm_evidence_weight: 20      # sort weight for LLM-quoted evidence on the risk card
+  overrides_high:
+    - name: authority_plus_coercion
+      rules_all: [AUTHORITY_IMPERSONATION]
+      rules_any: [DIGITAL_ARREST, TRANSFER_FOR_VERIFICATION, ARREST_THREAT, SECRECY_INSTRUCTION]
+    - name: live_call_authority_instructed
+      rules_all: [LIVE_CALL, AUTHORITY_IMPERSONATION, INSTRUCTED_PAYMENT]
+  floors_medium:
+    - name: live_call_large_new_payee
+      when: {live_call: true, beneficiary_is_new: true, min_amount_ratio: 5}
+    - name: secrecy_instruction
+      rules_all: [SECRECY_INSTRUCTION]
+
+metrics:
+  cpu_tdp_watts: 28            # set from your CPU's spec sheet; used only when RAPL is unavailable
+  rapl_path: /sys/class/powercap/intel-rapl:0/energy_uj
+
+eval:
+  llm_cache_dir: var/llm_cache
+  results_dir: eval/results

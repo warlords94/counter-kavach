@@ -1,0 +1,65 @@
+{
+  "id": "gen_10",
+  "title": "Monthly supplier payment",
+  "split": "test",
+  "language": "hinglish",
+  "label": {
+    "is_scam": false,
+    "scam_type": null,
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 49,
+    "avg_monthly_debit_inr": 400000,
+    "max_single_debit_inr_12m": 900000,
+    "txn_amount_inr": 700000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": false,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Kapde ke supplier ka payment, har mahine karte hain"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "supplier ne bill bheja"
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "yes",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}

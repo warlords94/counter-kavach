@@ -1,0 +1,65 @@
+{
+  "id": "da_10",
+  "title": "Coached: 'buying a plot', unknown man answers for him",
+  "split": "test",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": true
+  },
+  "transaction": {
+    "customer_age": 77,
+    "avg_monthly_debit_inr": 60000,
+    "max_single_debit_inr_12m": 300000,
+    "txn_amount_inr": 2500000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": true,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": "Young man accompanying the customer answers for him, says he is from the bank's head office"
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Buying a plot of land."
+    },
+    "Q2": {
+      "choice": "no",
+      "detail": "My own decision"
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "Yes, the seller is my friend's relative"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": "Not needed"
+    }
+  },
+  "notice_text": ""
+}

@@ -1,0 +1,60 @@
+# Recommended actions and customer messages. Edit the wording to match your bank's SOP.
+# The tool recommends; an authorised officer decides, and the UI records the decision.
+
+levels:
+  LOW:
+    - en: Proceed with the transaction.
+      hi: लेन-देन आगे बढ़ाएं।
+    - en: Hand over the short scam-awareness note.
+      hi: ग्राहक को ठगी से बचाव का छोटा नोट दें।
+  MEDIUM:
+    - en: Supervisor review before processing.
+      hi: प्रोसेस करने से पहले सुपरवाइज़र से समीक्षा कराएं।
+    - en: Offer to call a family contact, with the customer's consent.
+      hi: ग्राहक की सहमति से परिवार के किसी सदस्य को फ़ोन करने की पेशकश करें।
+    - en: Suggest a cooling-off period before sending the money.
+      hi: पैसे भेजने से पहले कुछ समय रुकने का सुझाव दें।
+    - en: Re-check after the family call or cooling-off period.
+      hi: परिवार से बात या रुकने के बाद दोबारा जांच करें।
+  HIGH:
+    - en: Do not process now.
+      hi: अभी प्रोसेस न करें।
+    - en: Escalate to the branch manager.
+      hi: शाखा प्रबंधक को सूचित करें।
+    - en: Apply a temporary debit hold if the bank's SOP allows.
+      hi: बैंक की SOP अनुमति दे तो अस्थायी डेबिट होल्ड लगाएं।
+    - en: Help the customer report on 1930 or cybercrime.gov.in.
+      hi: ग्राहक को 1930 या cybercrime.gov.in पर शिकायत करने में मदद करें।
+    - en: Inform police as per bank policy.
+      hi: बैंक नीति के अनुसार पुलिस को सूचित करें।
+
+action_options:
+  - Proceeded with the transaction
+  - Proceeded after supervisor review
+  - Held for cooling-off / family call
+  - Escalated to branch manager
+  - Declined; customer helped to report on 1930 / cybercrime.gov.in
+
+# LOW gets the awareness note; MEDIUM and HIGH get the message for the scam type (default if none).
+customer_messages:
+  LOW:
+    en: "Thank you. A reminder: police, CBI, RBI or any bank will never ask you to move money over a phone or video call. If anyone does, call 1930."
+    hi: "धन्यवाद। ध्यान रखें: पुलिस, सीबीआई, आरबीआई या कोई भी बैंक फ़ोन या वीडियो कॉल पर पैसे ट्रांसफर करने को कभी नहीं कहता। ऐसा हो तो 1930 पर कॉल करें।"
+  digital_arrest:
+    en: "You are safe here. No police or government agency arrests anyone on a video call or asks you to move money to verify it. Please end the call — we will help you."
+    hi: "आप यहाँ सुरक्षित हैं। कोई भी पुलिस या सरकारी एजेंसी वीडियो कॉल पर गिरफ्तार नहीं करती और न ही जांच के लिए पैसे ट्रांसफर करवाती है। कृपया कॉल काट दें, हम आपकी मदद करेंगे।"
+  investment:
+    en: "Please pause before investing. Guaranteed or doubled returns from WhatsApp or Telegram groups are a common fraud. Let us check this with you first."
+    hi: "निवेश से पहले कृपया रुकें। व्हाट्सऐप या टेलीग्राम ग्रुप से गारंटीड या दोगुने रिटर्न का वादा आम ठगी है। पहले हम आपके साथ इसकी जांच कर लें।"
+  kyc_or_account_block:
+    en: "Your account is safe with us. The bank never asks you to move money to update KYC or avoid a block. Please don't share any OTP or PIN."
+    hi: "आपका खाता हमारे पास सुरक्षित है। बैंक केवाईसी अपडेट या खाता बंद होने से बचाने के लिए कभी पैसे ट्रांसफर करने को नहीं कहता। कृपया किसी को ओटीपी या पिन न बताएं।"
+  relative_in_trouble:
+    en: "We understand you are worried. Before sending money, let us call your family member on a number you already know to confirm they are safe."
+    hi: "हम समझते हैं कि आप चिंतित हैं। पैसे भेजने से पहले, आपके पास पहले से मौजूद नंबर पर परिवार के सदस्य को फ़ोन करके पुष्टि कर लेते हैं कि वे सुरक्षित हैं।"
+  lottery_or_refund:
+    en: "A real prize or tax refund never asks you to pay a fee first. Please don't send this money until we check it with you."
+    hi: "असली इनाम या टैक्स रिफंड के लिए पहले कोई फीस नहीं देनी होती। जब तक हम जांच न कर लें, कृपया यह पैसा न भेजें।"
+  default:
+    en: "For your safety, we'd like to take a few minutes to check this payment with you before sending it. Please don't share any OTP or PIN."
+    hi: "आपकी सुरक्षा के लिए, भेजने से पहले हम कुछ मिनट इस भुगतान की आपके साथ जांच करना चाहेंगे। कृपया किसी को ओटीपी या पिन न बताएं।"

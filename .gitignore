@@ -1,0 +1,11 @@
+# Private plan PDF (contains form details)
+/Counter Kavach*.pdf
+
+# Downloaded models and local runtime data (logs, reports, LLM cache)
+models/
+var/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/

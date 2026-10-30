@@ -1,0 +1,65 @@
+{
+  "id": "da_03",
+  "title": "Coached: 'advance to builder', on phone with 'nephew'",
+  "split": "dev",
+  "language": "hinglish",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": true
+  },
+  "transaction": {
+    "customer_age": 74,
+    "avg_monthly_debit_inr": 50000,
+    "max_single_debit_inr_12m": 200000,
+    "txn_amount_inr": 2200000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": "Customer on phone with earphones, says it is his nephew"
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Ghar ke liye builder ko advance de raha hoon"
+    },
+    "Q2": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "yes",
+      "detail": "haan builder ko jaanta hoon"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": "nahi, bhatija hai phone par"
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": "abhi zaroorat nahi, main khud kar lunga"
+    }
+  },
+  "notice_text": ""
+}

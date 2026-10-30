@@ -1,0 +1,65 @@
+{
+  "id": "rel_02",
+  "title": "Son 'in an accident in Dubai', hospital deposit",
+  "split": "test",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "relative_in_trouble",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 68,
+    "avg_monthly_debit_inr": 40000,
+    "max_single_debit_inr_12m": 70000,
+    "txn_amount_inr": 200000,
+    "txn_type": "IMPS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "My son called from Dubai, he was in an accident and the hospital needs a deposit."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "Someone from the hospital called from a new number"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": "It is the hospital's account they said"
+    },
+    "Q4": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q5": {
+      "choice": "unsure",
+      "detail": "He said don't worry the family"
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q7": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": "His phone is switched off"
+    }
+  },
+  "notice_text": ""
+}

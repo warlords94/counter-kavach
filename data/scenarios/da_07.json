@@ -1,0 +1,65 @@
+{
+  "id": "da_07",
+  "title": "TRAI SIM misuse, 'safe account', call ended",
+  "split": "test",
+  "language": "en",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 66,
+    "avg_monthly_debit_inr": 60000,
+    "max_single_debit_inr_12m": 200000,
+    "txn_amount_inr": 800000,
+    "txn_type": "NEFT",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": false,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "Transfer to a safe account as told by the TRAI officer, my SIM was used in illegal activity."
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "TRAI and then Mumbai police"
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "They said not to tell the bank why"
+    },
+    "Q6": {
+      "choice": "no",
+      "detail": "They told me to call back after the transfer"
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": ""
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "Mumbai police said arrest warrant is ready"
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "unsure",
+      "detail": "My son is busy"
+    }
+  },
+  "notice_text": ""
+}

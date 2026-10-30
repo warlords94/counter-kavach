@@ -1,0 +1,397 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Counter Kavach Pipeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+  /* Layout: one reading column; each diagram sits in its own horizontal scroller so the page never scrolls sideways. */
+  :root {
+    --bg: #f2f5f6;
+    --surface: #ffffff;
+    --ink: #132029;
+    --muted: #54626b;
+    --line: #b7c2c8;
+    --edge: #6b7880;
+    --accent: #0b6870;
+    --accent-soft: #e0eff0;
+    --decision: #eaf0f6;
+    --low: #2e7d32;
+    --medium: #9a5a00;
+    --high: #c0392b;
+    --on-level: #ffffff;
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1418; --surface: #151d22; --ink: #e2e9ed; --muted: #98a5ad; --line: #3a4851; --edge: #87949c;
+      --accent: #5bbfc5; --accent-soft: #123338; --decision: #19232d;
+      --low: #6cbf70; --medium: #e2a548; --high: #ee6f60; --on-level: #0e1418;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1418; --surface: #151d22; --ink: #e2e9ed; --muted: #98a5ad; --line: #3a4851; --edge: #87949c;
+    --accent: #5bbfc5; --accent-soft: #123338; --decision: #19232d;
+    --low: #6cbf70; --medium: #e2a548; --high: #ee6f60; --on-level: #0e1418;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding-block: 40px 56px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid;
+    gap: 44px;
+  }
+  header { display: grid; gap: 10px; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 { margin: 0; font-size: 2rem; line-height: 1.2; font-weight: 600; text-wrap: balance; }
+  h2 { margin: 0; font-size: 1.25rem; font-weight: 600; text-wrap: balance; }
+  p { margin: 0; max-width: 68ch; }
+  .lede { color: var(--muted); font-size: 1.05rem; }
+  code { font-family: var(--font-mono); font-size: 0.9em; }
+
+  section { display: grid; gap: 14px; min-width: 0; }
+  figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+  .scroller {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  svg.diagram { display: block; width: 100%; min-width: 680px; height: auto; color: var(--edge); }
+  figcaption { color: var(--muted); font-size: 0.9rem; max-width: 76ch; }
+
+  /* diagram marks */
+  .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.25; }
+  .box.accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+  .box.decision { fill: var(--decision); stroke: var(--line); }
+  .box.ghost { fill: var(--bg); stroke: var(--muted); stroke-dasharray: 5 4; }
+  .edge { fill: none; stroke: var(--edge); stroke-width: 1.5; }
+  .edge.dash { stroke-dasharray: 5 4; }
+  .t { font-family: var(--font-body); font-size: 13.5px; font-weight: 600; fill: var(--ink); }
+  .s { font-family: var(--font-body); font-size: 11.5px; fill: var(--muted); }
+  .m, .lbl { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); }
+  .chip-low { fill: var(--low); }
+  .chip-medium { fill: var(--medium); }
+  .chip-high { fill: var(--high); }
+  .chip-text { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; fill: var(--on-level); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap { overflow-x: auto; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td code { color: var(--accent); }
+  .note { color: var(--muted); font-size: 0.9rem; }
+</style>
+
+<main class="page">
+  <header>
+    <div class="eyebrow">Counter Kavach · build of 30 Oct 2026</div>
+    <h1>How one counter check moves through the code</h1>
+    <p class="lede">From the transaction form to the audit log. Everything runs in one Python process on the branch PC's CPU, and the offline guard blocks any connection that isn't to the machine itself. <code>kavach/pipeline.py</code> runs the analysis for the app, the eval and the benchmark, so all three use the same path.</p>
+  </header>
+
+  <section aria-labelledby="h-flow">
+    <h2 id="h-flow">One check, end to end</h2>
+    <figure>
+      <div class="scroller" tabindex="0">
+        <svg class="diagram" viewBox="0 0 920 936" role="img" aria-label="Flow of one check: transaction details go to the anomaly scorer, which recommends a guided check; the answers go to the rules engine and the LLM analyzer in parallel; score fusion combines the anomaly, rule and LLM scores into a risk card; the officer decides; the app writes an incident report and an audit log entry.">
+          <defs>
+            <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- intake -->
+          <rect class="box" x="300" y="16" width="320" height="56" rx="10"/>
+          <text class="t" x="460" y="40" text-anchor="middle">Transaction details</text>
+          <text class="s" x="460" y="59" text-anchor="middle">amount, history, age, new payee, live call</text>
+          <line class="edge" x1="460" y1="72" x2="460" y2="102" marker-end="url(#a1)"/>
+          <text class="lbl" x="470" y="91">TransactionContext</text>
+
+          <rect class="box" x="300" y="104" width="320" height="56" rx="10"/>
+          <text class="t" x="460" y="128" text-anchor="middle">Anomaly scorer</text>
+          <text class="m" x="460" y="147" text-anchor="middle">anomaly.py · 0–100 · 0.04 ms</text>
+          <line class="edge" x1="460" y1="160" x2="460" y2="194" marker-end="url(#a1)"/>
+          <text class="lbl" x="470" y="181">score + reasons</text>
+
+          <!-- anomaly score lane to fusion -->
+          <polyline class="edge" points="300,132 30,132 30,592 298,592" marker-end="url(#a1)"/>
+          <text class="lbl" x="165" y="124" text-anchor="middle">anomaly score</text>
+
+          <rect class="box decision" x="300" y="196" width="320" height="56" rx="28"/>
+          <text class="t" x="460" y="220" text-anchor="middle">Check recommended?</text>
+          <text class="s" x="460" y="239" text-anchor="middle">score ≥ 30 and amount ≥ ₹50,000</text>
+          <line class="edge" x1="620" y1="224" x2="688" y2="224" marker-end="url(#a1)"/>
+          <text class="lbl" x="654" y="216" text-anchor="middle">no</text>
+          <rect class="box ghost" x="690" y="196" width="210" height="56" rx="10"/>
+          <text class="t" x="795" y="220" text-anchor="middle">Process normally</text>
+          <text class="s" x="795" y="239" text-anchor="middle">or press “Check anyway”</text>
+          <line class="edge" x1="460" y1="252" x2="460" y2="290" marker-end="url(#a1)"/>
+          <text class="lbl" x="470" y="275">yes, or Check anyway</text>
+
+          <!-- guided check -->
+          <rect class="box" x="300" y="292" width="320" height="56" rx="10"/>
+          <text class="t" x="460" y="316" text-anchor="middle">Guided check, EN / HI</text>
+          <text class="s" x="460" y="335" text-anchor="middle">Q1 open · Q2–Q10 Yes/No/Unsure/Skip + detail</text>
+
+          <rect class="box" x="690" y="292" width="210" height="56" rx="10"/>
+          <text class="t" x="795" y="316" text-anchor="middle">Mic, optional</text>
+          <text class="s" x="795" y="335" text-anchor="middle">Whisper small → editable text</text>
+          <line class="edge" x1="690" y1="320" x2="622" y2="320" marker-end="url(#a1)"/>
+          <text class="lbl" x="656" y="312" text-anchor="middle">transcript</text>
+
+          <rect class="box ghost" x="60" y="292" width="190" height="56" rx="10"/>
+          <text class="t" x="155" y="316" text-anchor="middle">Enough to escalate</text>
+          <text class="s" x="155" y="335" text-anchor="middle">an override already fires</text>
+          <line class="edge dash" x1="300" y1="320" x2="252" y2="320" marker-end="url(#a1)"/>
+          <text class="lbl" x="276" y="312" text-anchor="middle">skip</text>
+          <polyline class="edge dash" points="155,348 155,404 268,404"/>
+
+          <line class="edge" x1="460" y1="348" x2="460" y2="404"/>
+          <text class="lbl" x="470" y="380">answers</text>
+          <line class="edge" x1="270" y1="404" x2="650" y2="404"/>
+          <line class="edge" x1="270" y1="404" x2="270" y2="434" marker-end="url(#a1)"/>
+          <line class="edge" x1="650" y1="404" x2="650" y2="434" marker-end="url(#a1)"/>
+
+          <!-- analysis -->
+          <rect class="box" x="120" y="436" width="300" height="64" rx="10"/>
+          <text class="t" x="270" y="460" text-anchor="middle">Rules engine</text>
+          <text class="s" x="270" y="477" text-anchor="middle">answer + text rules · negation-aware</text>
+          <text class="m" x="270" y="493" text-anchor="middle">rules/engine.py · 0.67 ms</text>
+
+          <rect class="box" x="500" y="436" width="300" height="64" rx="10"/>
+          <text class="t" x="650" y="460" text-anchor="middle">LLM analyzer</text>
+          <text class="s" x="650" y="477" text-anchor="middle">Qwen3-4B on llama.cpp, CPU</text>
+          <text class="m" x="650" y="493" text-anchor="middle">analyzer.py · 15.5 s p50 · 46 s p95</text>
+
+          <polyline class="edge" points="270,500 270,530 400,530 400,558" marker-end="url(#a1)"/>
+          <text class="lbl" x="335" y="524" text-anchor="middle">rule score + hits</text>
+          <polyline class="edge" points="650,500 650,530 520,530 520,558" marker-end="url(#a1)"/>
+          <text class="lbl" x="585" y="524" text-anchor="middle">LLM score + quotes</text>
+
+          <!-- fusion -->
+          <rect class="box accent" x="300" y="560" width="320" height="64" rx="10"/>
+          <text class="t" x="460" y="584" text-anchor="middle">Score fusion</text>
+          <text class="s" x="460" y="601" text-anchor="middle">weighted score → level → overrides → floors</text>
+          <text class="m" x="460" y="617" text-anchor="middle">fusion.py · 0.17 ms</text>
+          <line class="edge" x1="460" y1="624" x2="460" y2="664" marker-end="url(#a1)"/>
+          <text class="lbl" x="470" y="648">runs twice: rules first, then with the LLM</text>
+
+          <!-- risk card -->
+          <rect class="box" x="300" y="666" width="320" height="56" rx="10"/>
+          <text class="t" x="460" y="690" text-anchor="middle">Risk card</text>
+          <text class="s" x="460" y="709" text-anchor="middle">level · top 5 evidence · what to say · actions</text>
+          <rect class="chip-low" x="640" y="683" width="62" height="22" rx="11"/>
+          <text class="chip-text" x="671" y="698" text-anchor="middle">LOW</text>
+          <rect class="chip-medium" x="708" y="683" width="70" height="22" rx="11"/>
+          <text class="chip-text" x="743" y="698" text-anchor="middle">MEDIUM</text>
+          <rect class="chip-high" x="784" y="683" width="62" height="22" rx="11"/>
+          <text class="chip-text" x="815" y="698" text-anchor="middle">HIGH</text>
+          <line class="edge" x1="460" y1="722" x2="460" y2="760" marker-end="url(#a1)"/>
+
+          <rect class="box" x="300" y="762" width="320" height="56" rx="10"/>
+          <text class="t" x="460" y="786" text-anchor="middle">Officer decides</text>
+          <text class="s" x="460" y="805" text-anchor="middle">action taken · suspected fraud · name</text>
+
+          <line class="edge" x1="460" y1="818" x2="460" y2="838"/>
+          <line class="edge" x1="290" y1="838" x2="630" y2="838"/>
+          <line class="edge" x1="290" y1="838" x2="290" y2="862" marker-end="url(#a1)"/>
+          <line class="edge" x1="630" y1="838" x2="630" y2="862" marker-end="url(#a1)"/>
+
+          <rect class="box" x="140" y="864" width="300" height="56" rx="10"/>
+          <text class="t" x="290" y="888" text-anchor="middle">Incident report</text>
+          <text class="s" x="290" y="907" text-anchor="middle">Markdown + HTML · 5-line complaint · masked</text>
+          <rect class="box" x="480" y="864" width="300" height="56" rx="10"/>
+          <text class="t" x="630" y="888" text-anchor="middle">Audit log</text>
+          <text class="m" x="630" y="907" text-anchor="middle">var/audit.jsonl · SHA-256 hash chain</text>
+        </svg>
+      </div>
+      <figcaption>The rules engine and the LLM read the same answers. Fusion runs as soon as the rules finish, so the staff see a preliminary card in about a millisecond, then runs again when the LLM returns. Dashed shapes are optional paths. The notice-photo (OCR) branch in the plan isn't built yet, so it isn't drawn. Times are p50 from the eval and the clean benchmark on the Ryzen 7 250 laptop.</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="h-llm">
+    <h2 id="h-llm">Inside the LLM step</h2>
+    <p>One generation per check, plus at most one retry. The first attempt skips grammar-constrained decoding because it cost about 0.08 s per output token on this CPU. The retry uses the JSON-schema grammar, which guarantees valid JSON.</p>
+    <figure>
+      <div class="scroller" tabindex="0">
+        <svg class="diagram" viewBox="0 0 920 506" role="img" aria-label="LLM step: the prompt goes to a first attempt without grammar; if the JSON is valid, the evidence guard keeps only quotes found in the answers and the likelihood becomes a score of 10, 50 or 85, capped at 30 without quotes; if not valid, a second attempt uses the JSON-schema grammar; if that also fails, the LLM is marked unavailable and the card uses rules and transaction signals only.">
+          <defs>
+            <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect class="box" x="200" y="16" width="320" height="56" rx="10"/>
+          <text class="t" x="360" y="40" text-anchor="middle">Prompt</text>
+          <text class="s" x="360" y="59" text-anchor="middle">cached system prompt + this check's answers</text>
+          <line class="edge" x1="360" y1="72" x2="360" y2="102" marker-end="url(#a2)"/>
+          <text class="lbl" x="370" y="91">system prompt reused from KV cache</text>
+
+          <rect class="box" x="200" y="104" width="320" height="56" rx="10"/>
+          <text class="t" x="360" y="128" text-anchor="middle">Attempt 1: free decoding</text>
+          <text class="s" x="360" y="147" text-anchor="middle">no grammar · valid on 40 of 40 eval checks</text>
+          <line class="edge" x1="360" y1="160" x2="360" y2="194" marker-end="url(#a2)"/>
+
+          <rect class="box decision" x="200" y="196" width="320" height="56" rx="28"/>
+          <text class="t" x="360" y="220" text-anchor="middle">Valid JSON for the schema?</text>
+          <text class="s" x="360" y="239" text-anchor="middle">checked with Pydantic</text>
+          <line class="edge" x1="520" y1="224" x2="598" y2="224" marker-end="url(#a2)"/>
+          <text class="lbl" x="559" y="216" text-anchor="middle">no</text>
+          <line class="edge" x1="360" y1="252" x2="360" y2="294" marker-end="url(#a2)"/>
+          <text class="lbl" x="370" y="277">yes</text>
+
+          <rect class="box" x="600" y="196" width="300" height="56" rx="10"/>
+          <text class="t" x="750" y="220" text-anchor="middle">Attempt 2: grammar-constrained</text>
+          <text class="s" x="750" y="239" text-anchor="middle">JSON-schema grammar, slower, always valid</text>
+          <line class="edge" x1="750" y1="252" x2="750" y2="294" marker-end="url(#a2)"/>
+
+          <rect class="box decision" x="600" y="296" width="300" height="56" rx="28"/>
+          <text class="t" x="750" y="320" text-anchor="middle">Valid?</text>
+          <text class="s" x="750" y="339" text-anchor="middle">model error or crash counts as no</text>
+          <line class="edge" x1="600" y1="324" x2="522" y2="324" marker-end="url(#a2)"/>
+          <text class="lbl" x="561" y="316" text-anchor="middle">yes</text>
+          <line class="edge" x1="750" y1="352" x2="750" y2="394" marker-end="url(#a2)"/>
+          <text class="lbl" x="760" y="377">no</text>
+
+          <rect class="box ghost" x="600" y="396" width="300" height="56" rx="10"/>
+          <text class="t" x="750" y="420" text-anchor="middle">LLM unavailable</text>
+          <text class="s" x="750" y="439" text-anchor="middle">card uses rules + transaction only</text>
+          <line class="edge" x1="750" y1="452" x2="750" y2="494" marker-end="url(#a2)"/>
+          <text class="lbl" x="760" y="482">no LLM score</text>
+
+          <rect class="box" x="200" y="296" width="320" height="56" rx="10"/>
+          <text class="t" x="360" y="320" text-anchor="middle">Evidence guard</text>
+          <text class="s" x="360" y="339" text-anchor="middle">keep a flag only if its quote is in the answers</text>
+          <line class="edge" x1="360" y1="352" x2="360" y2="394" marker-end="url(#a2)"/>
+
+          <rect class="box accent" x="200" y="396" width="320" height="64" rx="10"/>
+          <text class="t" x="360" y="420" text-anchor="middle">LLM score</text>
+          <text class="s" x="360" y="438" text-anchor="middle">low 10 · medium 50 · high 85</text>
+          <text class="s" x="360" y="454" text-anchor="middle">capped at 30 if no quote survives</text>
+          <line class="edge" x1="360" y1="460" x2="360" y2="494" marker-end="url(#a2)"/>
+          <text class="lbl" x="370" y="482">to fusion</text>
+        </svg>
+      </div>
+      <figcaption>A quote passes the evidence guard if it appears in an answer word for word, or with a fuzzy match of 85 or more. A quote cited against the wrong question is re-attributed to the answer it came from. In the eval, the guard kept 60 quotes and dropped 1.</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="h-fusion">
+    <h2 id="h-fusion">How the level is decided</h2>
+    <p>Fusion averages the scores it has, turns the average into a level, then applies two kinds of rule. Hard overrides force HIGH. Floors lift a LOW to MEDIUM, which catches coached victims who deny everything while on a call.</p>
+    <figure>
+      <div class="scroller" tabindex="0">
+        <svg class="diagram" viewBox="0 0 920 560" role="img" aria-label="Fusion: anomaly, rule and LLM scores are averaged with weights 0.25, 0.35 and 0.40, re-normalised when the LLM score is missing; the average sets the level at 35 and 65; a hard override forces HIGH; otherwise a floor lifts LOW to MEDIUM; otherwise the level from the score stands.">
+          <defs>
+            <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect class="box" x="40" y="16" width="250" height="56" rx="10"/>
+          <text class="t" x="165" y="40" text-anchor="middle">Anomaly score</text>
+          <text class="m" x="165" y="59" text-anchor="middle">weight 0.25</text>
+          <rect class="box" x="335" y="16" width="250" height="56" rx="10"/>
+          <text class="t" x="460" y="40" text-anchor="middle">Rule score</text>
+          <text class="m" x="460" y="59" text-anchor="middle">weight 0.35</text>
+          <rect class="box ghost" x="630" y="16" width="250" height="56" rx="10"/>
+          <text class="t" x="755" y="40" text-anchor="middle">LLM score</text>
+          <text class="m" x="755" y="59" text-anchor="middle">weight 0.40 · may be missing</text>
+
+          <polyline class="edge" points="165,72 165,96 380,96 380,118" marker-end="url(#a3)"/>
+          <line class="edge" x1="460" y1="72" x2="460" y2="118" marker-end="url(#a3)"/>
+          <polyline class="edge" points="755,72 755,96 540,96 540,118" marker-end="url(#a3)"/>
+
+          <rect class="box" x="260" y="120" width="400" height="56" rx="10"/>
+          <text class="t" x="460" y="144" text-anchor="middle">Weighted score, 0–100</text>
+          <text class="s" x="460" y="163" text-anchor="middle">average of the scores present; weights re-normalised</text>
+          <line class="edge" x1="460" y1="176" x2="460" y2="206" marker-end="url(#a3)"/>
+
+          <rect class="box" x="260" y="208" width="400" height="56" rx="10"/>
+          <text class="t" x="460" y="232" text-anchor="middle">Level from score</text>
+          <text class="s" x="460" y="251" text-anchor="middle">below 35 LOW · 35–64 MEDIUM · 65+ HIGH</text>
+          <line class="edge" x1="460" y1="264" x2="460" y2="294" marker-end="url(#a3)"/>
+
+          <rect class="box decision" x="260" y="296" width="400" height="64" rx="30"/>
+          <text class="t" x="460" y="319" text-anchor="middle">Hard override fires?</text>
+          <text class="s" x="460" y="336" text-anchor="middle">authority claim + threat, secrecy or safe account</text>
+          <text class="s" x="460" y="352" text-anchor="middle">or live call + authority + told to pay</text>
+          <line class="edge" x1="660" y1="328" x2="738" y2="328" marker-end="url(#a3)"/>
+          <text class="lbl" x="699" y="320" text-anchor="middle">yes</text>
+          <rect class="chip-high" x="740" y="314" width="120" height="28" rx="14"/>
+          <text class="chip-text" x="800" y="332" text-anchor="middle">HIGH</text>
+          <line class="edge" x1="460" y1="360" x2="460" y2="394" marker-end="url(#a3)"/>
+          <text class="lbl" x="470" y="381">no</text>
+
+          <rect class="box decision" x="260" y="396" width="400" height="64" rx="30"/>
+          <text class="t" x="460" y="419" text-anchor="middle">Floor fires and level is LOW?</text>
+          <text class="s" x="460" y="436" text-anchor="middle">live call + new payee + 5× usual monthly debit</text>
+          <text class="s" x="460" y="452" text-anchor="middle">or told to keep it secret</text>
+          <line class="edge" x1="660" y1="428" x2="738" y2="428" marker-end="url(#a3)"/>
+          <text class="lbl" x="699" y="420" text-anchor="middle">yes</text>
+          <rect class="chip-medium" x="740" y="414" width="120" height="28" rx="14"/>
+          <text class="chip-text" x="800" y="432" text-anchor="middle">MEDIUM</text>
+          <line class="edge" x1="460" y1="460" x2="460" y2="494" marker-end="url(#a3)"/>
+          <text class="lbl" x="470" y="481">no</text>
+
+          <rect class="box accent" x="260" y="496" width="400" height="56" rx="10"/>
+          <text class="t" x="460" y="520" text-anchor="middle">Keep the level from the score</text>
+          <text class="s" x="460" y="539" text-anchor="middle">LOW, MEDIUM or HIGH as computed</text>
+        </svg>
+      </div>
+      <figcaption>Only full hits fire overrides and floors: a Yes button or a text match, never an Unsure answer. The preliminary card runs this same logic with the LLM score missing, so its weights are re-normalised over anomaly and rules. All weights, thresholds, overrides and floors live in <code>config.yaml</code>.</figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="h-modules">
+    <h2 id="h-modules">Where each step lives</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Step</th><th>Code</th><th>Measured time</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Transaction anomaly score</td><td><code>kavach/anomaly.py</code></td><td class="num">0.04 ms p50</td></tr>
+          <tr><td>Guided check, probes, early escalation</td><td><code>kavach/interview.py</code>, <code>data/question_bank.yaml</code></td><td class="num">staff time</td></tr>
+          <tr><td>Speech to text</td><td><code>kavach/asr.py</code></td><td class="num">not timed on real speech yet</td></tr>
+          <tr><td>Text normalisation and negation</td><td><code>kavach/textnorm.py</code></td><td class="num">inside rules</td></tr>
+          <tr><td>Rules engine</td><td><code>kavach/rules/engine.py</code>, <code>red_flags.yaml</code></td><td class="num">0.67 ms p50</td></tr>
+          <tr><td>LLM analyzer and evidence guard</td><td><code>kavach/analyzer.py</code>, <code>kavach/llm/</code></td><td class="num">15.5 s p50 · 46 s p95</td></tr>
+          <tr><td>Score fusion</td><td><code>kavach/fusion.py</code></td><td class="num">0.17 ms p50</td></tr>
+          <tr><td>Orchestration (app, eval, bench)</td><td><code>kavach/pipeline.py</code></td><td class="num">–</td></tr>
+          <tr><td>Actions and customer messages</td><td><code>kavach/actions.py</code>, <code>actions.yaml</code></td><td class="num">–</td></tr>
+          <tr><td>Report and complaint summary</td><td><code>kavach/report.py</code>, <code>kavach/templates/</code></td><td class="num">–</td></tr>
+          <tr><td>Audit log and retention</td><td><code>kavach/audit.py</code></td><td class="num">–</td></tr>
+          <tr><td>Masking and offline guard</td><td><code>kavach/privacy.py</code></td><td class="num">–</td></tr>
+          <tr><td>Screens</td><td><code>app/main.py</code>, <code>app/components.py</code></td><td class="num">–</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Benchmark: 20 test-split checks, fresh LLM calls, Qwen3-4B-Instruct-2507 Q4_K_M on 8 CPU threads. Genuine and coached cases took 14–16 s; scam cases took 38–60 s because the model quotes the evidence word for word.</p>
+  </section>
+</main>
+
+</body></html>

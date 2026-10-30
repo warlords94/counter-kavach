@@ -1,0 +1,65 @@
+{
+  "id": "da_09",
+  "title": "CBI/ED 'account verification', camera on",
+  "split": "test",
+  "language": "hinglish",
+  "label": {
+    "is_scam": true,
+    "scam_type": "digital_arrest",
+    "coached": false
+  },
+  "transaction": {
+    "customer_age": 63,
+    "avg_monthly_debit_inr": 55000,
+    "max_single_debit_inr_12m": 150000,
+    "txn_amount_inr": 750000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-PAYEE",
+    "staff_notes": ""
+  },
+  "answers": {
+    "Q1": {
+      "detail": "CBI wale bole account verify karna hai, paisa unke khate mein dalna hai"
+    },
+    "Q2": {
+      "choice": "yes",
+      "detail": "CBI officer ne bola aaj hi bhejna hai"
+    },
+    "Q3": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q4": {
+      "choice": "yes",
+      "detail": "haan CBI aur ED dono"
+    },
+    "Q5": {
+      "choice": "yes",
+      "detail": "bole kisi ko mat batana warna family bhi fasegi"
+    },
+    "Q6": {
+      "choice": "yes",
+      "detail": "haan video call pe hoon, camera on rakhne bola"
+    },
+    "Q7": {
+      "choice": "yes",
+      "detail": "bole verification ke baad paisa wapas aa jayega"
+    },
+    "Q8": {
+      "choice": "yes",
+      "detail": "bole digital arrest hai"
+    },
+    "Q9": {
+      "choice": "no",
+      "detail": ""
+    },
+    "Q10": {
+      "choice": "no",
+      "detail": ""
+    }
+  },
+  "notice_text": ""
+}
