@@ -1,0 +1,98 @@
+# Guided interview. type: open | yes_no. risk_answer: the button choice that is a red flag
+# (kept in sync with kavach/rules/red_flags.yaml answer rules). Probes show on the risk answer.
+
+staff_tips:
+  en:
+    - Ask calmly, one question at a time. The customer may be a victim under pressure.
+    - Scam victims are often told to lie to bank staff. Note inconsistencies; don't argue.
+    - If they are on a call, politely ask them to put it on hold while you talk.
+  hi:
+    - शांति से, एक-एक करके सवाल पूछें। ग्राहक दबाव में हो सकते हैं।
+    - ठगी के शिकार लोगों को अक्सर बैंक से झूठ बोलने को कहा जाता है। विरोधाभास नोट करें, बहस न करें।
+    - अगर वे कॉल पर हैं, तो विनम्रता से कॉल होल्ड करने को कहें।
+
+questions:
+  - id: Q1
+    topic: purpose
+    type: open
+    en: What is this money for?
+    hi: यह पैसा किस काम के लिए है?
+
+  - id: Q2
+    topic: instructed
+    type: yes_no
+    risk_answer: "yes"
+    en: Did anyone ask or tell you to make this payment?
+    hi: क्या किसी ने आपसे यह भुगतान करने को कहा है?
+    probes:
+      en: Who asked you? How do you know them?
+      hi: किसने कहा? आप उन्हें कैसे जानते हैं?
+
+  - id: Q3
+    topic: payee
+    type: yes_no
+    risk_answer: "no"
+    en: Do you personally know who is receiving it?
+    hi: क्या आप पैसा पाने वाले व्यक्ति को निजी तौर पर जानते हैं?
+
+  - id: Q4
+    topic: authority
+    type: yes_no
+    risk_answer: "yes"
+    en: Has anyone said they are from police, CBI, ED, customs, RBI, a court or a courier company?
+    hi: क्या किसी ने खुद को पुलिस, सीबीआई, ईडी, कस्टम, आरबीआई, कोर्ट या कूरियर कंपनी से बताया है?
+    probes:
+      en: Which office? Did they give a name or case number?
+      hi: कौन-सा विभाग? क्या उन्होंने कोई नाम या केस नंबर बताया?
+
+  - id: Q5
+    topic: secrecy
+    type: yes_no
+    risk_answer: "yes"
+    en: Were you told not to tell family or bank staff?
+    hi: क्या आपसे कहा गया है कि परिवार या बैंक कर्मचारियों को न बताएं?
+
+  - id: Q6
+    topic: live_call
+    type: yes_no
+    risk_answer: "yes"
+    en: Are you on a call or video call with them now?
+    hi: क्या आप अभी उनसे फ़ोन या वीडियो कॉल पर हैं?
+    probes:
+      en: Since when? Is the camera on?
+      hi: कब से? क्या कैमरा चालू है?
+
+  - id: Q7
+    topic: refund_promise
+    type: yes_no
+    risk_answer: "yes"
+    en: Were you told the money will come back after verification?
+    hi: क्या आपसे कहा गया है कि जांच के बाद पैसा वापस मिल जाएगा?
+    probes:
+      en: Who said it will come back, and when?
+      hi: किसने कहा कि पैसा वापस आएगा, और कब?
+
+  - id: Q8
+    topic: threat
+    type: yes_no
+    risk_answer: "yes"
+    en: Were you told you will be arrested or your account frozen if you don't pay today?
+    hi: क्या आपसे कहा गया है कि आज भुगतान नहीं किया तो आपको गिरफ्तार किया जाएगा या खाता फ्रीज़ हो जाएगा?
+
+  - id: Q9
+    topic: documents
+    type: yes_no
+    risk_answer: "yes"
+    branch_to: notice_check
+    en: Did you receive a notice, warrant or order on WhatsApp or email?
+    hi: क्या आपको व्हाट्सऐप या ईमेल पर कोई नोटिस, वारंट या आदेश मिला है?
+    probes:
+      en: Can you show it to us?
+      hi: क्या आप हमें वह दिखा सकते हैं?
+
+  - id: Q10
+    topic: family
+    type: yes_no
+    risk_answer: "no"
+    en: May we call a family member before we process this?
+    hi: क्या इसे आगे बढ़ाने से पहले हम आपके परिवार के किसी सदस्य को फ़ोन कर सकते हैं?

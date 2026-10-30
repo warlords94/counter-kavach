@@ -1,0 +1,152 @@
+# Red-flag rules. Each rule id counts once (highest weight).
+# answer: {question, choice} — a button choice that hits the rule (Unsure counts at rules.unsure_factor).
+# patterns: regex on normalised text (casefolded, NFC, nukta removed); single quotes keep \b literal, '' = '.
+# Never put \b around Devanagari: Python treats matras as non-word characters.
+
+rules:
+  - id: AUTHORITY_IMPERSONATION
+    label_en: Someone claimed to be police / CBI / ED / RBI / court
+    label_hi: किसी ने खुद को पुलिस / सीबीआई / ईडी / आरबीआई / कोर्ट से बताया
+    weight: 25
+    answer: {question: Q4, choice: "yes"}
+    patterns:   # an agency name alone is not enough; it needs a role or claim
+      - '\b(cbi|ed|enforcement directorate|ncb|narcotics|customs|cyber ?crime|police|rbi|trai|court)\b ?(officer|official|inspector|wala|wale|waale|walon|se)\b'
+      - '\b(officer|official|inspector|agent)s? (from|of) (the )?(cbi|ed|enforcement directorate|ncb|narcotics|customs|cyber ?crime|police|rbi|trai|supreme court|high court)\b'
+      - '\b(said|says|claimed|claims|told me) (he|she|they) (is|was|are|were) (from )?(the )?(cbi|ed|enforcement directorate|ncb|customs|cyber ?crime|police|rbi|trai|court)\b'
+      - '(सी\s?बी\s?आई|पुलिस|ईडी|कस्टम्स?|आरबीआई|साइबर क्राइम|कोर्ट)\s?(के\s)?(अधिकारी|ऑफिसर|इंस्पेक्टर)'
+      - '(सी\s?बी\s?आई|पुलिस|ईडी|कस्टम्स?|आरबीआई|साइबर क्राइम|कोर्ट)\s?(वाले|वाला|वालों|से)'
+
+  - id: DIGITAL_ARREST
+    label_en: Told they are under "digital arrest" / must stay on video call
+    label_hi: '"डिजिटल अरेस्ट" या वीडियो कॉल पर बने रहने को कहा गया'
+    weight: 30
+    patterns:
+      - 'digital ?arrest|house ?arrest'
+      - '\b(camera|video) (on|chalu) (rakh|rakho|rakhna|rakhiye|rakhne)\b|video ?call (pe|par) (raho|rehna|rahna|rahiye|rehne)'
+      - '\b(stay|remain|keep) on (the )?video ?call\b|\b(don''?t|do not) (disconnect|cut|end) the (video )?call\b'
+      - 'डिजिटल\s?अरेस्ट|हाउस\s?अरेस्ट|वीडियो\s?कॉल\s?(पर|पे)\s?(रहो|रहना|रहिए|रहने)|कैमरा\s?(ऑन|चालू)\s?(रखो|रखना|रखिए|रखने)'
+    fuzzy_terms: [digital arrest]
+
+  - id: SECRECY_INSTRUCTION
+    label_en: Told not to tell family or bank staff
+    label_hi: परिवार या बैंक को न बताने को कहा गया
+    weight: 20
+    answer: {question: Q5, choice: "yes"}
+    patterns:   # bare "secret" / "confidential" left out: surprises and gifts are genuine
+      - '\b(don''?t|do not|never|not to) tell (anyone|anybody|your family|family|your (son|daughter|children|wife|husband)|the bank|bank (staff|officials?|people))\b'
+      - '\bkeep (it|this) (secret|confidential) from\b'
+      - 'kisi ko (bhi )?(mat|na|nahi|nahin) (batana|batao|bataiye|bataye)|ghar (par|pe|mein) (mat|na) (batana|batao)'
+      - 'किसी को (भी )?(मत|न|नहीं) (बताना|बताओ|बताइए|बताएं)|घर (पर|पे|में) (मत|न) (बताना|बताओ)'
+
+  - id: TRANSFER_FOR_VERIFICATION
+    label_en: Told to move money to a "safe" account for verification
+    label_hi: जांच के लिए पैसा "सुरक्षित खाते" में डालने को कहा गया
+    weight: 25
+    answer: {question: Q7, choice: "yes"}
+    patterns:   # bare "verification for" left out: it matched "police verification for my passport"
+      - '\bsafe (custody|account)\b|\b(rbi|government|sarkari|secure) (account|khata|khate)\b'
+      - '\b(transfer|send|deposit|move|park|bhej\w*|daal\w*|jama)\b.{0,30}\b(for|ke liye) (verification|jaanch|janch|checking|investigation)\b'
+      - '\b(refund|return)(ed)? after (verification|investigation|checking|clearance)\b|\bmoney will (come|be (sent|given|returned)) back\b'
+      - '\b(paisa|paise) wapas (aa|mil) (jayega|jayenge|jaega)\b'
+      - 'सुरक्षित (खाते|खाता|अकाउंट)|(आरबीआई|सरकारी) (खाते|खाता|अकाउंट)|(पैसा|पैसे|रकम) वापस (आ|मिल) (जाएगा|जाएंगे|जायेगा)'
+
+  - id: PARCEL_OR_DRUGS
+    label_en: Told a parcel in their name had drugs or illegal items
+    label_hi: बताया गया कि उनके नाम के पार्सल में ड्रग्स या अवैध सामान है
+    weight: 25
+    patterns:
+      - '\b(parcel|courier|package|consignment)\b.{0,60}\b(drugs?|mdma|narcotics?|ganja|cocaine|heroin|fake passports?|illegal items?|contraband)\b'
+      - '\b(drugs?|mdma|narcotics?|contraband)\b.{0,40}\b(parcel|courier|package|consignment)\b'
+      - 'aapke naam (ka|se) (ek )?(parcel|courier|package)'
+      - '(पार्सल|कूरियर|पैकेट).{0,40}(ड्रग्स|ड्रग|नशीले|गांजा|अवैध)|(ड्रग्स|ड्रग|नशीले).{0,40}(पार्सल|कूरियर)'
+
+  - id: LAUNDERING_ACCUSATION
+    label_en: Accused of money laundering / Aadhaar or SIM misuse
+    label_hi: मनी लॉन्ड्रिंग या आधार/सिम के गलत इस्तेमाल का आरोप
+    weight: 25
+    patterns:
+      - '\bmoney ?launder(ing|ed)?\b|\bhawala\b|\bterror (funding|financing)\b'
+      - '\b(aadhaar|aadhar|pan|sim|bank account|account)\b.{0,40}\b(misused|used in (a )?(crime|fraud|scam|case)|linked to (a )?(crime|case|fraud|scam)|involved in (a )?(crime|case|fraud|scam))\b'
+      - '\b(aadhaar|aadhar|sim) (ka|se) (galat|misuse|crime|fraud)'
+      - 'मनी\s?लॉन्ड्रिंग|मनी\s?लांड्रिंग|हवाला|(आधार|सिम|खाते).{0,30}(गलत इस्तेमाल|दुरुपयोग|अपराध|फ्रॉड)'
+    fuzzy_terms: [money laundering]
+
+  - id: ARREST_THREAT
+    label_en: Threatened with arrest or jail
+    label_hi: गिरफ्तारी या जेल की धमकी
+    weight: 25
+    answer: {question: Q8, choice: "yes"}
+    patterns:
+      - '\barrest warrant\b|\bwarrant (against|for|in) (you|your|me|my)\b|\b(will|would|going to) (be )?(arrest|jail)(ed)?\b|\b(arrest|jail) (you|me)\b|\bsend (you|me) to jail\b'
+      - '\b(giraftar|griftar|arrest) (kar|ho) ?(lenge|denge|jaoge|jayenge|jaenge|jaogi)\b|\bjail (bhej|ho) ?(denge|dege|jayega|jaoge)\b'
+      - 'गिरफ्तार (कर|हो) (लेंगे|लिया जाएगा|जाओगे|जाएंगे|जाएगा|जाएगी)|अरेस्ट\s?वारंट|जेल (भेज|हो) ?(देंगे|जाएगी|जाओगे|जाएगा)'
+
+  - id: URGENCY
+    label_en: Pressured to pay immediately
+    label_hi: तुरंत भुगतान का दबाव
+    weight: 10
+    patterns:
+      - '\b(today itself|right now|immediately|urgent(ly)?|within (\d+|one|two|three|a few) (hours?|minutes?)|by (today|tonight|this evening))\b'
+      - '\b(abhi ke abhi|abhi turant|turant|jaldi se|aaj hi|aaj ke aaj)\b'
+      - 'आज ही|तुरंत|फौरन|अभी के अभी|(\d+|एक|दो|तीन) घंटे (में|के अंदर)'
+
+  - id: INVESTMENT_LURE
+    label_en: Promised guaranteed or doubled returns
+    label_hi: गारंटीड या दोगुने रिटर्न का वादा
+    weight: 20
+    patterns:
+      - '\bguarantee+d? (returns?|profits?|income)\b|\b(double|triple) (your |the )?(money|amount|investment)\b|\bipo allot+ment\b|\btrading (app|platform|group|tips?)\b|\bstock (tips?|market group)\b'
+      - '\b(whatsapp|telegram) (group|channel)\b.{0,40}\b(invest\w*|trading|stocks?|shares?|returns?|profits?|tips?)\b'
+      - '\b(paisa|paise|money) double\b|\bdouble (ho|kar) ?(jayega|denge|dega)\b'
+      - 'गारंटीड\s?रिटर्न|पैसा\s?डबल|पैसे\s?डबल|ट्रेडिंग\s?(ऐप|एप|ग्रुप)|आईपीओ'
+    fuzzy_terms: [guaranteed return]
+
+  - id: KYC_OR_ACCOUNT_BLOCK
+    label_en: Told their KYC / account / card will be blocked
+    label_hi: केवाईसी / खाता / कार्ड बंद होने की बात
+    weight: 20
+    patterns:
+      - '\bkyc\b.{0,30}\b(update|expired?|pending|block(ed)?|suspend(ed)?|verify|verification)\b'
+      - '\b(account|card|pan|sim)\b.{0,20}\b(blocked|frozen|freezed|suspended|deactivated)\b|\bpan (card )?(update|link)\b'
+      - '\b(account|khata) (band|block|freeze|freez) (ho|kar) ?(jayega|denge|dega)\b'
+      - 'केवाईसी|(खाता|अकाउंट|खाते)\s?(बंद|ब्लॉक|फ्रीज़|फ्रीज)|पैन\s?(अपडेट|लिंक)'
+
+  - id: RELATIVE_IN_TROUBLE
+    label_en: Told a relative is arrested, hurt or in trouble
+    label_hi: किसी रिश्तेदार के गिरफ्तार / घायल / मुसीबत में होने की बात
+    weight: 20
+    patterns:
+      - '\b(son|daughter|grandson|granddaughter|nephew|niece|brother|sister|husband|wife)\b.{0,40}\b(arrested|in (police )?custody|accident|in hospital|hospitali[sz]ed|kidnapped|in trouble|detained|in jail)\b'
+      - '\b(beta|beti|pota|poti|bhai|bhatija)\b.{0,30}\b(pakda|giraftar|arrest|hospital|accident)\b'
+      - '(बेटा|बेटी|बेटे|पोता|पोती|भाई|भतीजा).{0,30}(गिरफ्तार|पकडा|पकड|हिरासत|अस्पताल|एक्सीडेंट|दुर्घटना)'
+
+  - id: LIVE_CALL
+    label_en: Customer is on a live call with the caller
+    label_hi: ग्राहक अभी कॉल पर है
+    weight: 15
+    answer: {question: Q6, choice: "yes"}
+    transaction_flag: customer_on_call_at_counter
+
+  - id: INSTRUCTED_PAYMENT
+    label_en: Someone told them to make this payment
+    label_hi: किसी ने यह भुगतान करने को कहा
+    weight: 15
+    answer: {question: Q2, choice: "yes"}
+
+  - id: UNKNOWN_PAYEE
+    label_en: Does not personally know the payee
+    label_hi: पैसा पाने वाले को निजी तौर पर नहीं जानते
+    weight: 10
+    answer: {question: Q3, choice: "no"}
+
+  - id: NOTICE_RECEIVED
+    label_en: Received a notice / warrant on WhatsApp or email
+    label_hi: व्हाट्सऐप या ईमेल पर नोटिस / वारंट मिला
+    weight: 10
+    answer: {question: Q9, choice: "yes"}
+
+  - id: DECLINES_FAMILY_CALL
+    label_en: Declined a call to a family member
+    label_hi: परिवार को फ़ोन करने से मना किया
+    weight: 10
+    answer: {question: Q10, choice: "no"}

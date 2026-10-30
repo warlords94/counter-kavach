@@ -1,0 +1,32 @@
+{
+  "id": "da_01",
+  "title": "Senior citizen, 'CBI' video call, RBI safe account (demo 1)",
+  "split": "dev",
+  "language": "hi",
+  "label": {"is_scam": true, "scam_type": "digital_arrest", "coached": false},
+  "transaction": {
+    "customer_age": 72,
+    "avg_monthly_debit_inr": 40000,
+    "max_single_debit_inr_12m": 150000,
+    "txn_amount_inr": 1800000,
+    "txn_type": "RTGS",
+    "beneficiary_is_new": true,
+    "customer_on_call_at_counter": true,
+    "accompanied_by_unknown_person": false,
+    "payee_reference": "SAMPLE-ACCT-000011112222",
+    "staff_notes": "Customer anxious, keeps looking at phone, video call open"
+  },
+  "answers": {
+    "Q1": {"detail": "मेरे खाते की जांच चल रही है, सीबीआई वालों ने कहा है कि यह पैसा आरबीआई के सुरक्षित खाते में डालना है"},
+    "Q2": {"choice": "yes", "detail": "हाँ, सीबीआई के अधिकारी ने कहा कि आज ही भेजना है"},
+    "Q3": {"choice": "no", "detail": "नहीं, उन्होंने खाता नंबर दिया है"},
+    "Q4": {"choice": "yes", "detail": "हाँ, मुंबई पुलिस और सीबीआई से फोन आया था, कहा मेरे आधार से मनी लॉन्ड्रिंग हुई है"},
+    "Q5": {"choice": "yes", "detail": "हाँ, बोले किसी को मत बताना, बेटे को भी नहीं"},
+    "Q6": {"choice": "yes", "detail": "हाँ, दो दिन से वीडियो कॉल पर हूँ, कैमरा चालू रखने को कहा है"},
+    "Q7": {"choice": "yes", "detail": "हाँ, बोले जांच के बाद पैसा वापस मिल जाएगा"},
+    "Q8": {"choice": "yes", "detail": "हाँ, बोले डिजिटल अरेस्ट है, पैसे नहीं भेजे तो गिरफ्तार कर लेंगे"},
+    "Q9": {"choice": "yes", "detail": "व्हाट्सऐप पर एक वारंट भेजा था"},
+    "Q10": {"choice": "no", "detail": "नहीं, उन्होंने मना किया है"}
+  },
+  "notice_text": ""
+}
