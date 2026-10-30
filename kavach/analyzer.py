@@ -18,23 +18,23 @@ ANALYZER_SCHEMA = {
     "type": "object",
     "properties": {
         "red_flags": {
-            "type": "array", "maxItems": 5,
+            "type": "array", "maxItems": 3,
             "items": {
                 "type": "object",
                 "properties": {
-                    "flag": {"type": "string"},
-                    "evidence": {"type": "string"},
+                    "flag": {"type": "string", "maxLength": 30},
+                    "evidence": {"type": "string", "maxLength": 60},
                     "question_id": {"type": "string", "enum": QUESTION_IDS + ["notice"]},
                 },
                 "required": ["flag", "evidence", "question_id"],
             },
         },
-        "inconsistencies": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
+        "inconsistencies": {"type": "array", "maxItems": 2, "items": {"type": "string", "maxLength": 100}},
         "scam_type": {"type": "string", "enum": [
             "digital_arrest", "investment", "kyc_or_account_block", "relative_in_trouble",
             "lottery_or_refund", "other", "none_detected"]},
         "coercion_likelihood": {"type": "string", "enum": ["low", "medium", "high"]},
-        "staff_summary": {"type": "string"},
+        "staff_summary": {"type": "string", "maxLength": 160},
     },
     "required": ["red_flags", "inconsistencies", "scam_type", "coercion_likelihood", "staff_summary"],
 }
@@ -48,8 +48,14 @@ def question_texts() -> dict[str, str]:
     return {q["id"]: q["en"] for q in load_yaml("data/question_bank.yaml")["questions"]}
 
 
+def system_prompt() -> str:
+    """Static across checks, so llama.cpp reuses its KV cache; the question list lives here, not per check."""
+    qs = "\n".join(f"{qid}. {text}" for qid, text in question_texts().items())
+    return PROMPT_PATH.read_text(encoding="utf-8").strip() + "\n\nScreening questions:\n" + qs
+
+
 def build_messages(ctx: TransactionContext, answers: dict[str, Answer], notice_text: str = "") -> list[dict]:
-    system = PROMPT_PATH.read_text(encoding="utf-8").strip()
+    system = system_prompt()
     ratio = ctx.txn_amount_inr / max(ctx.avg_monthly_debit_inr, 1)
     yn = lambda b: "yes" if b else "no"  # noqa: E731
     lines = [
@@ -61,12 +67,10 @@ def build_messages(ctx: TransactionContext, answers: dict[str, Answer], notice_t
     if ctx.staff_notes.strip():
         lines.append(f"Staff notes: {ctx.staff_notes.strip()}")
     lines += ["", "Answers ([Yes]/[No]/[Unsure] are the customer's button answers):"]
-    texts = question_texts()
     for qid in sorted(answers, key=_qkey):
         a = answers[qid]
         label = f" {_CHOICE_LABEL[a.choice]}" if a.choice else ""
-        lines.append(f"{qid}. {texts.get(qid, '')}{label}")
-        lines.append(f"Answer: {a.detail.strip() or '(no detail)'}")
+        lines.append(f"{qid}{label}: {a.detail.strip() or '-'}")
     if notice_text.strip():
         lines += ["", f"Notice text (id: notice): {notice_text.strip()}"]
     return [{"role": "system", "content": system}, {"role": "user", "content": "\n".join(lines)}]
@@ -96,19 +100,30 @@ def evidence_guard(flags: list[RedFlag], answers: dict[str, Answer], notice_text
     return kept, len(flags) - len(kept)
 
 
+def _strip_fences(text: str) -> str:
+    t = text.strip()
+    if t.startswith("```"):
+        t = t.split("\n", 1)[1] if "\n" in t else ""
+        t = t.rsplit("```", 1)[0]
+    return t.strip()
+
+
 def analyze(backend: LLMBackend | None, ctx: TransactionContext, answers: dict[str, Answer],
             notice_text: str = "", cfg: dict | None = None) -> AnalyzerResult:
     cfg = cfg or load_config()
     if backend is None:
         return AnalyzerResult(available=False, error="No LLM backend loaded")
     messages = build_messages(ctx, answers, notice_text)
+    # Grammar-constrained sampling costs ~0.08 s/token on CPU, so try unconstrained first and use the
+    # schema grammar (guaranteed-valid JSON) only for the one retry; then fall back to rules + anomaly.
+    schemas = [None if cfg["llm"].get("unconstrained_first_attempt", True) else ANALYZER_SCHEMA, ANALYZER_SCHEMA]
     error, gen, parsed, attempts = None, None, None, 0
-    for _ in range(2):  # one retry, then fall back to rules + anomaly only
+    for schema in schemas:
         attempts += 1
         try:
-            gen = backend.generate(messages, json_schema=ANALYZER_SCHEMA, max_tokens=cfg["llm"]["max_tokens"],
+            gen = backend.generate(messages, json_schema=schema, max_tokens=cfg["llm"]["max_tokens"],
                                    temperature=cfg["llm"]["temperature"])
-            parsed = LLMAssessment.model_validate_json(gen.text)
+            parsed = LLMAssessment.model_validate_json(_strip_fences(gen.text))
             break
         except Exception as e:  # invalid JSON, schema mismatch, or backend failure
             error = f"{type(e).__name__}: {e}"

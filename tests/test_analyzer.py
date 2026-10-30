@@ -23,6 +23,7 @@ class FakeBackend(LLMBackend):
 
     def generate(self, messages, json_schema=None, max_tokens=384, temperature=0.1):
         self.calls += 1
+        self.schemas = getattr(self, "schemas", []) + [json_schema]
         out = self.outputs.pop(0)
         if isinstance(out, Exception):
             raise out
@@ -49,6 +50,30 @@ def test_prompt_states_required_facts_and_lists_answers_with_choices():
 def test_schema_puts_evidence_before_verdict():
     keys = list(ANALYZER_SCHEMA["properties"])
     assert keys.index("red_flags") < keys.index("coercion_likelihood")
+
+
+def test_schema_bounds_output_so_json_cannot_be_truncated():
+    props = ANALYZER_SCHEMA["properties"]
+    flag = props["red_flags"]["items"]["properties"]
+    assert props["red_flags"]["maxItems"] <= 3 and props["inconsistencies"]["maxItems"] <= 2
+    assert flag["evidence"]["maxLength"] <= 100 and flag["flag"]["maxLength"] <= 40
+    assert props["staff_summary"]["maxLength"] <= 240
+
+
+def test_system_prompt_spells_out_every_required_field_and_enum():
+    system = build_messages(make_ctx(), QA)[0]["content"]
+    for field in ANALYZER_SCHEMA["required"]:
+        assert f'"{field}"' in system
+    for value in ANALYZER_SCHEMA["properties"]["scam_type"]["enum"]:
+        assert value in system
+
+
+def test_question_list_lives_in_cacheable_system_prompt():
+    a = build_messages(make_ctx(), QA)
+    b = build_messages(make_ctx(customer_age=30), answers(Q1="wedding"))
+    assert a[0] == b[0]
+    assert "Q10" in a[0]["content"] and "family member" in a[0]["content"]
+    assert "Has anyone said they are from police" not in a[1]["content"]
 
 
 def test_evidence_guard_keeps_verbatim_devanagari_quote():
@@ -91,6 +116,17 @@ def test_analyze_unavailable_after_two_failures():
     backend = FakeBackend(["{}", RuntimeError("model crashed")])
     r = analyze(backend, make_ctx(), QA)
     assert not r.available and r.attempts == 2 and r.llm_score is None and "model crashed" in r.error
+
+
+def test_first_attempt_is_unconstrained_and_retry_uses_schema_grammar():
+    backend = FakeBackend(["not json", assessment("low")])
+    analyze(backend, make_ctx(), QA)
+    assert backend.schemas == [None, ANALYZER_SCHEMA]
+
+
+def test_code_fenced_json_is_accepted():
+    r = analyze(FakeBackend(["```json\n" + assessment("low") + "\n```"]), make_ctx(), QA)
+    assert r.available and r.attempts == 1
 
 
 def test_analyze_unavailable_without_backend():

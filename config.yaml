@@ -16,8 +16,9 @@ llm:
   n_ctx: 4096
   n_threads: auto            # physical cores
   temperature: 0.1
-  max_tokens: 384
+  max_tokens: 512            # hard cap; the schema bounds normal output well below this
   chat_format: chatml        # Qwen models use ChatML
+  unconstrained_first_attempt: true   # grammar costs ~0.08 s/token on CPU; the retry uses the schema grammar
   smoke_max_seconds: 25      # model choice rule: slower than this -> use the fallback model
 
 asr:
